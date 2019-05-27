@@ -26,6 +26,7 @@ public class DemoTest {
         System.out.println(list.size());
         list.clear();
         System.out.println(list.size());
+        System.out.println("12121");
     }
 
     @Test
