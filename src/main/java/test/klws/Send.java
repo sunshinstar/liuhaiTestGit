@@ -91,5 +91,18 @@ public class Send {
         System.out.println("resultStr" + resultStr);
     }
 
+    /**
+     * 北京天肯获取余额
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testBJTK5() throws IOException {
+        List<NameValuePair> paramList = new ArrayList<>();
+        paramList.add(new BasicNameValuePair("uid", "mdlt"));
+        paramList.add(new BasicNameValuePair("pw", "737493"));
+        String resultStr = Request.Post("http://101.251.236.60:18003/balance").body(new UrlEncodedFormEntity(paramList, "UTF-8")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
+        System.out.println("resultStr" + resultStr);
+    }
 
 }

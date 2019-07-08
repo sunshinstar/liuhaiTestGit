@@ -1,10 +1,14 @@
 package test;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Test {
+public class TestDemo {
     public static void main(String[] args) {
         String config = "河南:test;湖北:213;默认:reject";
         String[] configStr = config.split(";");
@@ -30,6 +34,19 @@ public class Test {
         System.out.println("index" + index);
 
     }
+
+
+    @Test
+    public void test1() throws IOException {
+        StringRedisTemplate redisTemplate = new StringRedisTemplate();
+        StringBuffer sb = new StringBuffer();
+        sb.append("111");
+        sb.append("222");
+        sb.append("333");
+        List<String> list = redisTemplate.opsForList().range(sb.toString(), 0, -1);
+        System.out.println(list);
+    }
+
 
 
 }

@@ -81,6 +81,11 @@ public class DemoTest {
         System.out.println("stream.forEach打印结果如下");
         i.stream().forEach(System.out::print);
         // 固定结果 1234567
+        for (int j = 0; j < 10000; j++) {
+            if(j==10){
+                System.out.println("121212");
+            }
+        }
         System.out.println("parallelStream.forEach打印结果如下");
         i.parallelStream().forEach(System.out::print);
         //每次的结果都不同
@@ -88,5 +93,9 @@ public class DemoTest {
         i.parallelStream().forEachOrdered(System.out::print);
         //结果同stream.forEach
 
+    }
+
+    public  int tets1(){
+        return 8;
     }
 }

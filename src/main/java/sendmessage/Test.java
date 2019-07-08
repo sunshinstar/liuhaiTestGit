@@ -3,8 +3,7 @@ package sendmessage;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,4 +88,20 @@ public class Test {
     }
 
 
+    @org.junit.jupiter.api.Test
+    public void test121() throws  Exception{
+        System.out.println("\u5f00\u53d1\u8005\u5229\u6da6\u7b49\u7ea7\u4fee\u6539");
+    }
+
+    public static void fileCopy(String source, String target) throws IOException {
+        try (InputStream in = new FileInputStream(source)) {
+            try (OutputStream out = new FileOutputStream(target)) {
+                byte[] buffer = new byte[4096];
+                int bytesToRead;
+                while ((bytesToRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesToRead);
+                }
+            }
+        }
+    }
 }

@@ -94,6 +94,25 @@ public class DriverTest {
     }
 
     /**
+     * 盟信互通获取余额
+     *
+     * @throws IOException
+     */
+    @Test
+    public void balance() throws IOException {
+
+        List<NameValuePair> paramList = new ArrayList<>();
+        paramList.add(new BasicNameValuePair("Account", "MDEL"));
+        paramList.add(new BasicNameValuePair("Password", "abcd1234"));
+        paramList.add(new BasicNameValuePair("Channel", "1"));
+        String resultStr = Request.Post("http://119.23.154.247:8000/GetBalance.asp").body(new UrlEncodedFormEntity(paramList, "GB2312")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("GB2312"));
+        System.out.println( resultStr);
+
+    }
+
+
+
+    /**
      * 盟信互通上行返回结果解析demo
      *
      * @throws IOException
@@ -164,28 +183,40 @@ public class DriverTest {
     }
 
     /**
+     * 中正云通信 获取账号状态
+     *
+     * @throws IOException
+     */
+    @Test
+    public void test9() throws IOException {
+        List<NameValuePair> paramList = new ArrayList<>();
+        paramList.add(new BasicNameValuePair("uid", "miaodijy2"));
+        paramList.add(new BasicNameValuePair("pwd", "miaodijy2"));
+        String resultStr = Request.Post("http://service2.winic.org/service.asmx/GetUserInfo").body(new UrlEncodedFormEntity(paramList, "UTF-8")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
+        System.out.println("resultStr" + resultStr);
+    }
+
+    /**
      * 中正云返回数据数据解析demo
      *
      * @throws DocumentException
      */
     @Test
     public void test7() throws DocumentException {
-        Document document = DocumentHelper.parseText("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-                "<string xmlns=\"http://tempuri.org/\">null</string>");
+        Document document = DocumentHelper.parseText("<string xmlns=\"http://tempuri.org/\">000/miaodijy2/6439.5860/0.0430/65/【吉信通】/0.2000/0.3000/0.3000/winic</string>");
         // 获取根节点
         Element rootElt = document.getRootElement();
         System.out.println("根节点数据：" + rootElt.getStringValue());
         String[] sys = rootElt.getStringValue().split("\\|");
-        System.out.println(sys.length);
         if (rootElt.getStringValue().indexOf("null") != -1) {
             System.out.println("111111111111111111");
         }
         for (int i = 0; i < sys.length; i++) {
             String[] result = sys[i].split("\\/");
-            System.out.println(result.length);
-            for (int j = 0; j < result.length; j++) {
-                System.out.println(result[j]);
-            }
+            String money=result[2];
+            String price=result[3];
+            int result1 =(int)Math.floor(Double.parseDouble(money) / Double.parseDouble(price));
+            System.out.println(result1);
         }
     }
 

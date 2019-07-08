@@ -39,7 +39,7 @@ public class HttpPostsTest {
     /**
      * 设置请求和传输超时时间
      */
-    private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(50000).setConnectTimeout(50000).build();
+    private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
 
 
     /**
@@ -71,7 +71,7 @@ public class HttpPostsTest {
     void test6() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
          //String url ="http://miaodi.f3322.net:7089/gateway/sendVideoStatus/videoMessageReveiveData";
-         String url ="http://119.139.196.116:7089/gateway/sendVideoStatus/videoMessageReveiveData";
+         String url ="http://119.23.65.189:8088/gateway/sendVideoStatus/videoMessageReveiveData";
        // String url = "http://127.0.0.1:8089/gateway/sendVideoStatus/videoMessageReveiveData";
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
@@ -158,7 +158,8 @@ public class HttpPostsTest {
     public void test() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            String URL = "http://47.100.172.112:10005/send";
+              String URL = "http://47.100.172.112:10005/sapi/send";
+            //String URL = "http://124.126.120.102:8896/sapi/send";
             HttpPost httpPost = new HttpPost(URL);
             httpPost.setConfig(requestConfig);
             httpPost.addHeader("Content-Type", "application/json");
@@ -274,7 +275,7 @@ public class HttpPostsTest {
         //使用帮助类HttpClients创建CloseableHttpClient对象.
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
-            String url = "http://47.100.172.112:10005/materialUpload";
+            String url = "http://47.100.172.112:10005/sapi/material";
             //基于要发送的HTTP请求类型创建HttpPost实例.
             HttpPost httppost = new HttpPost(url);
             // 使用addHeader方法添加请求头部,诸如User-Agent, Accept-Encoding等参数.
@@ -438,7 +439,7 @@ public class HttpPostsTest {
         content.add(json2);
 
         JSONObject json3 = new JSONObject();
-        frame = "2-2";
+        frame = "3-1";
         fileName = "1.mp4";
         json3.put("Frame", frame);
         json3.put("FileName", fileName);
@@ -614,11 +615,13 @@ public class HttpPostsTest {
         json_param.put("Date", date);
 
         //用户手机号码列表，最长200 个，最短1 个
-        String phones[] = {"17681874926"};
+        //博文  17702712078
+        //俊江    18923359384
+        String phones[] = {"17702712078"};
         json_param.put("Phones", phones);
 
         //媒体消息内容ID
-        String mshid = "a3dc0cffe8b37ef09a0b682fe1e1ce12";
+        String mshid = "5d01bb3b252MR";
         json_param.put("MsgID", mshid);
 
         String JSONBody = json_param.toString();
