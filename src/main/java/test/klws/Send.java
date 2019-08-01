@@ -99,10 +99,21 @@ public class Send {
     @Test
     public void testBJTK5() throws IOException {
         List<NameValuePair> paramList = new ArrayList<>();
-        paramList.add(new BasicNameValuePair("uid", "mdlt"));
-        paramList.add(new BasicNameValuePair("pw", "737493"));
-        String resultStr = Request.Post("http://101.251.236.60:18003/balance").body(new UrlEncodedFormEntity(paramList, "UTF-8")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
-        System.out.println("resultStr" + resultStr);
+        paramList.add(new BasicNameValuePair("uid", "9514"));
+        paramList.add(new BasicNameValuePair("pw", "606848"));
+
+        String resultStr = Request.Post("http://101.251.236.60:18005/balance.do")
+                .body(new UrlEncodedFormEntity(paramList))
+                .socketTimeout(60000)
+                .connectTimeout(60000)
+                .execute()
+                .returnContent()
+                .asString(Charset.forName("UTF-8"));
+        System.out.println("resultStr: " + resultStr);
+
+//        String params = "uid=9514&pw=6068478";
+//        String s = Request.Get("http://101.251.236.60:18005/balance.do?uid=9514&pw=606848").socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("utf-8"));
+//        System.out.println(s);
     }
 
 }

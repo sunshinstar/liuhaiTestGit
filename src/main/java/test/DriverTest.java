@@ -1,5 +1,6 @@
 package test;
 
+import cn.stylefeng.roses.core.util.ToolUtil;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.fluent.Request;
@@ -219,6 +220,39 @@ public class DriverTest {
             System.out.println(result1);
         }
     }
+
+    @Test
+    void test8(){
+        List<NameValuePair> paramList = new ArrayList<>();
+        paramList.add(new BasicNameValuePair("uid", "miaodiwd2"));
+        paramList.add(new BasicNameValuePair("pwd", "miaodiwd2"));
+        try {
+            String resultStr = Request.Post("http://service2.winic.org/service.asmx/GetUserInfo").body(new UrlEncodedFormEntity(paramList, "UTF-8")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
+            System.out.println(resultStr);
+
+            if (ToolUtil.isNotEmpty(resultStr)) {
+                Document document = null;
+                try {
+                    document = DocumentHelper.parseText(resultStr);
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                }
+                // 获取根节点
+                Element rootElt = document.getRootElement();
+                String[] result = rootElt.getStringValue().split("/");
+                String money = result[2];
+                String price = result[3];
+                if (ToolUtil.isNotEmpty(money) && ToolUtil.isNotEmpty(price)) {
+                  int  balance = (int) Math.floor(Double.parseDouble(money) / Double.parseDouble(price));
+                    System.out.println(balance);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }
 
