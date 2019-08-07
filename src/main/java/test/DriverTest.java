@@ -253,6 +253,12 @@ public class DriverTest {
 
     }
 
+    @Test
+    void  test(){
+        Long data = 1L;
+        System.out.println(-(-data));
+
+    }
 
 }
 

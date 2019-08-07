@@ -10,8 +10,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,9 +38,14 @@ public class Demo {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         //String url ="http://miaodi.f3322.net:7089/gateway/sendVideoStatus/videoMessageReveiveData";
         //公网地址  直接映射访问11.1服务器7089端口
-        String url ="http://119.23.65.189:8088/gateway/sendVideoStatus/videoMessageReveiveData";
+        //String url ="http://119.23.65.189:8088/gateway/sendVideoStatus/videoMessageReveiveData";
         // String url = "http://127.0.0.1:8089/gateway/sendVideoStatus/videoMessageReveiveData";
          //String url = "http://127.0.0.1:8089/gateway/detectionLink/detectionLinkStatus";
+         //String url = "http://119.23.65.189:8088/gateway/detectionLink/detectionLinkStatus";
+
+         //开发服务器的公网接口调用  小程序端
+        String url = "http://127.0.0.1:8090/monitoring/detectionLink/detectionLinkStatus";
+
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         // 使用addHeader方法添加请求头部,诸如User-Agent, Accept-Encoding等参数.
@@ -129,5 +136,13 @@ public class Demo {
             ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
         }
         return ret.toString();
+    }
+
+    @Test
+    void test(){
+        BigDecimal bigDecimal = new BigDecimal(1);
+        BigDecimal bigDecima2 = new BigDecimal(5);
+        System.out.println(bigDecima2.compareTo(bigDecimal));
+
     }
 }
