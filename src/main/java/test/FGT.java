@@ -1,19 +1,21 @@
 package test;
 
+import channeldemo.videomessage.HttpUtils;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.SecureUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.fluent.Request;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.junit.jupiter.api.Test;
-import channeldemo.videomessage.HttpUtils;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -25,22 +27,25 @@ public class FGT {
 
     @Test
     public void test1() throws Exception {
-        Map map = new HashMap(5);
-        map.put("user", "miaodiltwd");
-        map.put("pwd", "miaodiltwd");
-        map.put("phone", "17681874926");
-        map.put("serial", "1314520");
-        map.put("msgcont", "【金岛公司】尊敬的各位领导：您好！我是广西百色金岛商务服务有限公司凌云分公司的客服代表，我公司是专门负责代理记账、工商服务、纳税申报等商务服务。感谢您一路的支持与厚爱，现我公司已按照原计划正与贵县110家村民合作社签订农村集体经济代理记账合同，费用为2000元/年.家，总值为22万元。我公司将拿出其中5.5万元的费用资助您当地凌云县的贫困学子（我公司将返回500元到每一家合作社），贫困学子的名单将由贵地提供给我公司，届时将由相关媒体做新闻报道，该方案已报备凌云县组织部。欢迎来电咨询17707765564，0776-2889889，相信我们能让您省钱更省心，金岛公司祝您工作生活愉快。回T退订。\n");
-        String result = sendGet("http://qd.qxt666.cn/interface/tomsg.jsp", map);
-        System.out.println(result);
+        StringBuffer params = new StringBuffer();
+        params.append("http://qd.qxt666.cn/interface/tomsg.jsp");
+        params.append("?user=").append( "miaodiltwd").append("&");
+        params.append("pwd=").append("miaodiltwd").append("&");
+        params.append("phone=").append("17681874926").append("&");
+        params.append("serial=").append("1314520").append("&");
+        params.append("msgcont=").append ( URLEncoder.encode("【金岛公司】尊敬的各位领导：您好！。助您当地凌云县的贫困学子（我公司将返回500元到每一家合作社），贫困学子的名单将由贵地提供给我公司，届时将由相关媒体做新闻报道，该方案已报备凌云县组织部。欢迎来电咨询17707765564，0776-2889889，相信我们能让您省钱更省心，金岛公司祝您工作生活愉快。回T退订。", "GBK"));
+        String resultStr =Request.Get(params.toString()).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("GBK"));
+        System.out.println(resultStr);
     }
 
     @Test
-    public void test8() {
-        Map map = new HashMap(5);
-        map.put("user", "miaodiltxxk");
-        map.put("pwd", "miaodiltxxk");
-        String result = sendGet("http://qd.qxt666.cn/interface/qamount.jsp", map);
+    public void test8() throws IOException {
+        StringBuffer params = new StringBuffer();
+        params.append("http://qd.qxt666.cn/interface/qamount.jsp?");
+        params.append("user=").append("miaodiltxxk").append("&");
+        params.append("pwd=").append("miaodiltxxk");
+        //String result = sendGet("http://qd.qxt666.cn/interface/qamount.jsp", map);
+        String result =Request.Get(params.toString()).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("GBK"));
         System.out.println(result);
     }
 

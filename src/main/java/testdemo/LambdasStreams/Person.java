@@ -1,4 +1,4 @@
-package testDemo.LambdasStreams;
+package testdemo.LambdasStreams;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

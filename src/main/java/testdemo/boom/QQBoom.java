@@ -1,4 +1,4 @@
-package testDemo.boom;
+package testdemo.boom;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

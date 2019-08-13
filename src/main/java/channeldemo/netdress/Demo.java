@@ -102,7 +102,7 @@ public class Demo {
     void test5()  {
         String resultStr = null;
         try {
-            resultStr = Request.Post("http://119.139.196.139:9000/monitoring/detectionLink/detectionLinkStatus?address=1212&msg=sadsda").body(null)
+            resultStr = Request.Post("http://sms.miaodiyun.com/monitoring/detectionLink/detectionLinkStatus?address=1212&msg=sadsda").body(null)
                     .addHeader("Content-Type", "application/json;charset=UTF-8")
                     .socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
         } catch (IOException e) {
