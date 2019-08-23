@@ -527,7 +527,7 @@ public class HttpPostsTest {
         JSONObject json_param = new JSONObject();
 
         //政企客户编号
-        String siID = "C10032";
+        String siID = "";
         json_param.put("SiID", siID);
 
         //秘钥key
@@ -617,7 +617,10 @@ public class HttpPostsTest {
         //用户手机号码列表，最长200 个，最短1 个
         //博文  17702712078
         //俊江    18923359384
-        String phones[] = {"17702712078"};
+        //陈高  18926576813
+        //张晓林   18126154325
+        //曾春焜   18124521865
+        String phones[] = {"18923359384"};
         json_param.put("Phones", phones);
 
         //媒体消息内容ID

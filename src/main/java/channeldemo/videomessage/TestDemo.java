@@ -2,9 +2,9 @@ package channeldemo.videomessage;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,29 +12,45 @@ import java.util.List;
  * @author liuhai
  * @date 2019/5/10 10:18
  */
-public class Test {
+public class TestDemo {
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void test3() {
-        List list = new ArrayList();
-        List newList = list.subList(0, list.size() > 10 ? 10 : list.size());
-        for (int i = 0; i < newList.size(); i++) {
-            System.out.println("iiiiiiii" + newList.get(i) + "===" + i);
+
+        List<String> smsToList = new ArrayList<>(500);
+        for (int i = 0; i <100 ; i++) {
+            smsToList.add("测试");
         }
+        smsToList.forEach(s -> {
+            check(s);
+        });
+        smsToList.clear();
+        smsToList = null;
+        System.out.println("终结者");
     }
 
-    @org.junit.jupiter.api.Test
-    public void test4() {
-        BigDecimal s = new BigDecimal(0.00001).setScale(1, BigDecimal.ROUND_HALF_UP);
+    private void check(String s ) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(s);
+    }
+
+    @Test
+    public void test4() {
+        String data = "【包找钱】恭喜您，今天您的账户已存入30000元，戳 http://t.cn/EG1TZRI?121 拿钱，退订回T\n";
+        System.out.println(data.replace("http://t.cn/EG1TZRI?121", ""));
+        System.out.println(data.replaceAll("http://t.cn/EG1TZRI?121", ""));
     }
 
 
     /**
      * 解析彩信供应商的下行回执
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test5() {
         String smsTemplateStr = "{\n" +
                 "    \"SiID\": \"34105639020006\", \n" +
