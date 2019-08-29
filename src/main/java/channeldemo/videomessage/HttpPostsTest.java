@@ -70,9 +70,15 @@ public class HttpPostsTest {
     @Test
     void test6() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-         //String url ="http://miaodi.f3322.net:7089/gateway/sendVideoStatus/videoMessageReveiveData";
-         String url ="http://119.23.65.189:8088/gateway/sendVideoStatus/videoMessageReveiveData";
-       // String url = "http://127.0.0.1:8089/gateway/sendVideoStatus/videoMessageReveiveData";
+        //下发状态的接口地址
+        //String url ="http://miaodi.f3322.net:7089/gateway/sendVideoStatus/videoMessageReveiveData";
+        //String url ="http://119.23.65.189:8088/gateway/sendVideoStatus/videoStatusReveiveData";
+        //String url = "http://127.0.0.1:8089/gateway/sendVideoStatus/videoStatusReveiveData";
+        //String url ="http://192.168.11.1:8089/gateway/sendVideoStatus/videoStatusReveiveData";
+        //公网地址  廷永配置的
+        String url = "http://47.112.97.97:8580/dxvapi/report";
+        //模板审核状态的地址
+        //String url = "http://47.112.97.97:8580/dxvapi/templateStatus";
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         // 使用addHeader方法添加请求头部,诸如User-Agent, Accept-Encoding等参数.
@@ -95,13 +101,11 @@ public class HttpPostsTest {
 
     @Test
     public void test8() {
-        String url ="http://127.0.0.1:8089/gateway/sendVideoStatus/videoMessageReveiveData";
-        String str = HttpUtils.post(url,getSendJsonss());
+        String url = "http://127.0.0.1:8089/gateway/sendVideoStatus/videoMessageReveiveData";
+        String str = HttpUtils.post(url, getSendJsonss());
         System.out.println(str);
         System.out.println();
     }
-
-
 
 
     /**
@@ -158,7 +162,7 @@ public class HttpPostsTest {
     public void test() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-              String URL = "http://47.100.172.112:10005/sapi/send";
+            String URL = "http://47.100.172.112:10005/sapi/send";
             //String URL = "http://124.126.120.102:8896/sapi/send";
             HttpPost httpPost = new HttpPost(URL);
             httpPost.setConfig(requestConfig);
@@ -275,7 +279,10 @@ public class HttpPostsTest {
         //使用帮助类HttpClients创建CloseableHttpClient对象.
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
+            // 测试接口
             String url = "http://47.100.172.112:10005/sapi/material";
+            //正式接口
+            //String url = "http://124.126.120.102:8896/sapi/material";
             //基于要发送的HTTP请求类型创建HttpPost实例.
             HttpPost httppost = new HttpPost(url);
             // 使用addHeader方法添加请求头部,诸如User-Agent, Accept-Encoding等参数.
@@ -413,7 +420,7 @@ public class HttpPostsTest {
         json_param.put("ExtNum", extNum);
 
         //素材主题  素材主题,建议长度小于等于9
-        String subject = "test";
+        String subject = "秒嘀测试";
         json_param.put("Subject", subject);
 
         //上传的内容信息,主要包含帧数，帧内顺序，扩展名，文件名等信息
@@ -422,7 +429,7 @@ public class HttpPostsTest {
 
         JSONObject json1 = new JSONObject();
         String frame = "1-1";
-        String text = "测试发送信息，退订回复T，此条信息免流量费\n";
+        String text = "【本条信息免流量费，发送TD退订】";
         //Frame    该字段代表文件的顺便，其中“-”前面的数字代表第几帧，“-”后面的数字代笔该文件在这个帧内的顺序
         json1.put("Frame", frame);
         /*Text    文本内容，当附件为文本类型时使用该字段，内容编码:UTF-8当内容中含有可变参数时，使用$进行包裹，例如：尊敬的$person$您好。
@@ -593,7 +600,7 @@ public class HttpPostsTest {
      *
      * @return
      */
-    public String getSendJson() {
+     String getSendJson() {
         JSONObject json_param = new JSONObject();
 
         //政企客户编号
@@ -620,11 +627,11 @@ public class HttpPostsTest {
         //陈高  18926576813
         //张晓林   18126154325
         //曾春焜   18124521865
-        String phones[] = {"18923359384"};
+        String phones[] = {"17702712078","18923359384"};
         json_param.put("Phones", phones);
 
         //媒体消息内容ID
-        String mshid = "5d01bb3b252MR";
+        String mshid = "5d649243qH97c";
         json_param.put("MsgID", mshid);
 
         String JSONBody = json_param.toString();
