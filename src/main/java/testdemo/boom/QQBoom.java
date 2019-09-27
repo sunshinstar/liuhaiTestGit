@@ -1,5 +1,7 @@
 package testdemo.boom;
 
+import org.junit.jupiter.api.Test;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -46,4 +48,15 @@ public class QQBoom {
             }
         }
     }
+
+
+
+    @Test
+    void test1(){
+        String url = "/applicaion/log/1.mp4";
+        System.out.println(url.substring(url.lastIndexOf("/")+1));
+
+
+    }
+
 }

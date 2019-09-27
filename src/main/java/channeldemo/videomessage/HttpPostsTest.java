@@ -39,7 +39,7 @@ public class HttpPostsTest {
     /**
      * 设置请求和传输超时时间
      */
-    private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+    private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(50000).setConnectTimeout(50000).build();
 
 
     /**
@@ -50,8 +50,8 @@ public class HttpPostsTest {
     @Test
     public void test5() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        String URL = "http://localhost:8089/gateway/sendVideoStatus";
-        HttpPost httpPost = new HttpPost(URL);
+        String url = "http://119.23.65.189/sms-tool/yunMac/sms/urlEncodedReceipt";
+        HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         List formParams = new ArrayList<>();
         formParams.add(new BasicNameValuePair("Phone", "中国"));
@@ -72,17 +72,25 @@ public class HttpPostsTest {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         //下发状态的接口地址
         //String url ="http://miaodi.f3322.net:7089/gateway/sendVideoStatus/videoMessageReveiveData";
-        //String url ="http://119.23.65.189:8088/gateway/sendVideoStatus/videoStatusReveiveData";
+        String url ="http://47.112.97.97:8580/szdxvapi/templateStatus";
         //String url = "http://127.0.0.1:8089/gateway/sendVideoStatus/videoStatusReveiveData";
         //String url ="http://192.168.11.1:8089/gateway/sendVideoStatus/videoStatusReveiveData";
         //公网地址  廷永配置的
-        String url = "http://47.112.97.97:8580/dxvapi/report";
+        //String url = "http://47.112.97.97:8580/dxvapi/report";
+        //189的地址  进行测试使用   中青视讯也用的这个接口做的测试
+//        String url = "http://119.23.65.189/sms-tool/yunMac/sms/urlEncodedReceipt";
+//        String url = "http://localhost:10090/sms-tool/yunMac/sms/urlEncodedReceipt";
+//        String url = "http://47.112.97.97:8580/szdxvapi/templateStatus";
+
+
+
         //模板审核状态的地址
         //String url = "http://47.112.97.97:8580/dxvapi/templateStatus";
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         // 使用addHeader方法添加请求头部,诸如User-Agent, Accept-Encoding等参数.
         httpPost.addHeader("text/plain", "charset=UTF-8");
+//        httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
         String jsonbody = getSendJsonss();
         StringEntity entity = new StringEntity(jsonbody, "utf-8");
         httpPost.setEntity(entity);
@@ -652,6 +660,8 @@ public class HttpPostsTest {
         String siID = "C10032";
         json_param.put("SiID", siID);
 
+        json_param.put("mobile", "18906577722");
+
         String date = format.format(new Date());
         String key = "FydfySgrdyet";
         String authenticator = siID + date + key;
@@ -664,8 +674,8 @@ public class HttpPostsTest {
 
         JSONArray content = new JSONArray();
         JSONObject json1 = new JSONObject();
-        json1.put("MsgID", "5cda29b617171");
-        json1.put("Phone", "18906577722");
+        json1.put("taskId", "5cda29b617171");
+        json1.put("mobile", "18906577722");
         json1.put("State", "RECEIVD");
         json1.put("TransID", "341056390200061558430776b1U16");
         json1.put("Amount", "Amount");

@@ -51,7 +51,7 @@ public class YunMacController {
 
     @Test
     void test2(){
-        System.out.println(  format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
+        System.out.println(10000<200);
     }
     public  String format(long time, String format) {
         if (time == 0) {

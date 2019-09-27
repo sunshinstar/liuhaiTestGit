@@ -1,4 +1,4 @@
-package channeldemo.telecomVideoMessage;
+package channeldemo.jiangsudianxin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -22,7 +22,10 @@ import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuhai
@@ -47,7 +50,8 @@ public class Demo {
             CloseableHttpClient httpclient = HttpClients.createDefault();
             try {
                 // 测试接口  访问的地址是公司的地址，但是公司地址会转向视频短信的地址
-                String url = "http://47.100.172.112:10005/sapi/material";
+                //从公司112服务器跳转到电信发送接口
+                String url = "http://47.100.172.112:8886/jsdx/sapi/material";
                 //基于要发送的HTTP请求类型创建HttpPost实例.
                 HttpPost httppost = new HttpPost(url);
                 // 使用addHeader方法添加请求头部,诸如User-Agent, Accept-Encoding等参数.
@@ -74,14 +78,15 @@ public class Demo {
                 FileBody bin = new FileBody(file);
                 // application/x-jpg	//mp4
                 FileBody bin1 = new FileBody(file1);
+
                 //组织json字符串
                 String jsonParam = getJSONParam();
                 System.out.println("请求参数：" + jsonParam);
                 StringBody comment = new StringBody(jsonParam, ContentType.APPLICATION_JSON);
 
                 //MultipartEntityBuilder实现类似form表单提交方式的文件上传
-                HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("Data", comment).
-                        addPart("1.jpg", bin).addPart("1.mp4", bin1).build();
+                HttpEntity reqEntity = MultipartEntityBuilder.create().
+                        addPart("1.jpg", bin).addPart("1.mp4", bin1).addPart("1.mp4", bin1).addPart("Data", comment).build();
                 httppost.setEntity(reqEntity);
                 //获取的结果类似   请求方式请求地址以及请求协议   POST http://47.100.172.112:10005/materialUpload HTTP/1.1
                 System.out.println("executing request ===" + httppost.getRequestLine());
@@ -127,8 +132,8 @@ public class Demo {
     void test2() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            String URL = "http://47.100.172.112:10005/sapi/send";
-            //String URL = "http://124.126.120.102:8896/sapi/send";
+            //从公司112服务器跳转到电信发送接口
+            String URL = "http://47.100.172.112:8886/jsdx/sapi/send";
             HttpPost httpPost = new HttpPost(URL);
             httpPost.setConfig(requestConfig);
             httpPost.addHeader("Content-Type", "application/json");
@@ -214,11 +219,57 @@ public class Demo {
 
     }
 
+    /**
+     * 模板刚提交的时候数据解析
+     */
     @Test
     void test4() {
-        Object jsonBody = getParamSendJson();
-        System.out.println(jsonBody);
+        String data = "{\"ResCode\":\"1000\",\"ResMsg\":\"成功\",\"Method\":\"material\",\"TransID\":\"1560306570emg31\",\"MsgID\":\"5d648eb1uM9v5\"}\n";
+        JSONObject jsonObject = JSON.parseObject(data);
+        System.out.println(jsonObject.get("MsgID"));
     }
+
+    /**
+     * 彩信提交发送的返回结果
+     */
+    @Test
+    void test5() {
+        String data = "{\"ResCode\":\"1000\",\"ResMsg\":\"成功\",\"Method\":\"send\",\"TransID\":\"C100321566872422971mR\"}";
+        JSONObject jsonObject = JSON.parseObject(data);
+        System.out.println(jsonObject.get("ResCode"));
+    }
+
+
+    /**
+     *嘉明模板报备的时候返回的数据
+     */
+    @Test
+    void test6(){
+        JSONArray array = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        //1234 文字图片音频视频
+        jsonObject.put("type",1);
+        jsonObject.put("materialId",1);
+        jsonObject.put("url","");
+        jsonObject.put("format","txt");
+        //单位KB
+        jsonObject.put("size","1024000");
+        array.add(jsonObject);
+        JSONObject jsonObject1 = new JSONObject();
+        //1234 文字图片音频视频
+        jsonObject1.put("type",2);
+        jsonObject1.put("materialId",3);
+        jsonObject1.put("url","/application/xxx/xxx.mp4");
+        jsonObject1.put("format","mp4");
+        //单位KB
+        jsonObject1.put("size","102400");
+        array.add(jsonObject1);
+        System.out.println(JSON.toJSONString(array));
+
+        JSONArray jsonArray = JSON.parseArray(JSON.toJSONString(array));
+        System.out.println(jsonArray);
+    }
+
 
 
     /**
@@ -319,7 +370,7 @@ public class Demo {
         //陈高  18926576813
         //张晓林   18126154325
         //曾春焜   18124521865
-        String[] phones = {"17702712078", "18923359384"};
+        String[] phones = {"17702712078"};
         json_param.put("Phones", phones);
 
         //媒体消息内容ID
