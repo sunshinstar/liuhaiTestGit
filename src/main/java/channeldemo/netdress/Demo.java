@@ -40,7 +40,7 @@ public class Demo {
         jsonObject.put("name","刘海测试");
         String resultStr = null;
         try {
-            resultStr = Request.Post("http://47.112.139.195:9096/add_target").body(new StringEntity(jsonObject.toString(), "UTF-8"))
+            resultStr = Request.Post("http://127.0.0.1:9096/add_target").body(new StringEntity(jsonObject.toString(), "UTF-8"))
                     .addHeader("Content-Type", "application/json;charset=UTF-8")
                     .socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
         } catch (IOException e) {
@@ -56,7 +56,7 @@ public class Demo {
     void test2()  {
         String resultStr = null;
         try {
-            resultStr = Request.Post("http://47.112.139.195:9096/add_target?address=www.baidu.com/&name=www.baidu.com/").body(null)
+            resultStr = Request.Post("http://127.0.0.1:9096/add_target?address=http://www.abbao.cn/&name=www.baidu.com/").body(null)
                     .addHeader("Content-Type", "application/json;charset=UTF-8")
                     .socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
         } catch (IOException e) {
@@ -73,7 +73,7 @@ public class Demo {
     void test3()  {
         String resultStr = null;
         try {
-            resultStr = Request.Post("http://47.112.139.195:9096/delete_target?address=121").body(null)
+            resultStr = Request.Post("http://127.0.0.1:9096/delete_target?address=http://t.cn/hfF2N").body(null)
                     .addHeader("Content-Type", "application/json;charset=UTF-8")
                     .socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
         } catch (IOException e) {

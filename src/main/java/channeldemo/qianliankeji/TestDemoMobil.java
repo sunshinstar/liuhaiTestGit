@@ -2,9 +2,11 @@ package channeldemo.qianliankeji;
 
 import cn.hutool.core.codec.Base64;
 import cn.stylefeng.roses.core.util.ToolUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -41,7 +43,7 @@ public class TestDemoMobil {
             paramList.add(new BasicNameValuePair("account", "qlkj106cx"));
             paramList.add(new BasicNameValuePair("password", "qlkj123456"));
             //移动号码    嘉明  19865768325
-            paramList.add(new BasicNameValuePair("mobile", "19865768325"));
+            paramList.add(new BasicNameValuePair("mobile", "17681874926"));
             paramList.add(new BasicNameValuePair("title", "【温馨提示】威高七彩城"));
             paramList.add(new BasicNameValuePair("starttime", ""));
             paramList.add(new BasicNameValuePair("extno", "1314520"));
@@ -68,21 +70,30 @@ public class TestDemoMobil {
      */
     @Test
     void test2() {
-        try {
-            List<NameValuePair> paramList = new ArrayList<>();
-            paramList.add(new BasicNameValuePair("userid", "2765"));
-            paramList.add(new BasicNameValuePair("account", "qlkj106cx"));
-            paramList.add(new BasicNameValuePair("password", "qlkj123456"));
-            paramList.add(new BasicNameValuePair("action", "overage"));
-            String resultStr = Request.Post("http://119.29.200.194:6687/sendmms.aspx").body(new UrlEncodedFormEntity(paramList, "UTF-8")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
-            System.out.println(resultStr);
-        } catch (Exception e) {
-            e.printStackTrace();
-
+        {
+            JSONObject object = new JSONObject();
+            object.put("callId", "1212121");
+            object.put("callee", "7817681874926");
+            String result;
+            try {
+                //线上的地址
+                String url = "http://113.31.86.215:8093/phone/external/statusQuery";
+//                String url = "http://127.0.0.1:8093/external/statusQuery";
+                result = Request.Post(url).body(new StringEntity(object.toString(), "utf-8"))
+                        .addHeader("Content-Type", "application/json;charset=UTF-8")
+                        .socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("utf-8"));
+                System.out.println(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
+    public static void main(String[] args) {
+        String phone = "8617681874926";
+        System.out.println(phone.substring(phone.length() - 11));
+    }
     /**
      * 状态查询接口
      */

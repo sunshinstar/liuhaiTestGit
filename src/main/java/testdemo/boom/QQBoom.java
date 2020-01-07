@@ -19,7 +19,7 @@ import java.awt.event.KeyEvent;
 public class QQBoom {
     public static void main(String[] args) throws AWTException {
         // 定义要发送的话
-        String sentence = "从前有座山,山里有座庙,庙里有个老和尚和小和尚,和尚对小和尚说：";
+        String sentence = "从前有座山,山里有座庙,庙里有个老和尚和小和尚,和尚对小和尚说：你是个大傻逼嘛";
         // 创建Robot对象
         Robot robot = new Robot();
         // 延迟三秒，主要是为了预留出打开窗口的时间，括号内的单位为毫秒
@@ -28,8 +28,9 @@ public class QQBoom {
         // 字符串根据,分割
         String[] authors = sentence.split("[,]");
         //循环次数
-        for (int j = 0; j < 50; j++) {
-            for (int i = 0; i < authors.length; i++) {
+        for (int j = 0; j < 5000; j++) {
+            for (int i = 0; i < authors.length;
+                 i++) {
                 String sentencet = authors[i];
                 Transferable tText = new StringSelection(sentencet);
                 clip.setContents(tText, null);
@@ -53,9 +54,15 @@ public class QQBoom {
 
     @Test
     void test1(){
-        String url = "/applicaion/log/1.mp4";
-        System.out.println(url.substring(url.lastIndexOf("/")+1));
-
+      while(true){
+          System.out.println("222222222");
+          try {
+              Thread.sleep(2000000);
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+          System.out.println("111111");
+      }
 
     }
 

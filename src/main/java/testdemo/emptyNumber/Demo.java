@@ -13,11 +13,14 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.junit.jupiter.api.Test;
+import testdemo.emptyNumber.utils.FileToBase64;
+import testdemo.emptyNumber.utils.PhoneEntity;
+import testdemo.emptyNumber.utils.PhoneStatusEnum;
+import testdemo.emptyNumber.utils.PhoneUtil;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author liuhai
@@ -45,10 +48,10 @@ public class Demo {
         object.put("key", SecureUtil.md5("miaodi" + time));
         object.put("time", time);
         object.put("mobiles", "17681874926,17681874925");
-        String result = Request.Post("http://localhost:8089/phone/es/importData").body(new StringEntity(object.toString(), "utf-8"))
+        String result = Request.Post("http://localhost:8093/es/queryMobileStatus").body(new StringEntity(object.toString(), "utf-8"))
                 .addHeader("Content-Type", "application/json;charset=UTF-8")
                 .socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("utf-8"));
-        System.out.println(result);
+        System.out.println(JSON.parseObject(result));
         //返回结果示例
         //[{"17681874926":{"city":"杭州","gmtCreate":1570870428459,"gmtModify":1570870428459,"id":"17681874926","operatorType":"联通176卡","phoneStatus":"1","province":"浙江","source":"1","tableName":"PHONE_176_MONITOR"}},{"17681874925":{"city":"杭州","gmtCreate":1570870428621,"gmtModify":1570870428621,"id":"17681874925","operatorType":"联通176卡","phoneStatus":"4","province":"浙江","source":"1","tableName":"PHONE_176_MONITOR"}}]
     }
@@ -96,7 +99,7 @@ public class Demo {
         Map<String, String> params = new HashMap<>(3);
         params.put("apiName", CHECKACCOUNT);
         params.put("password", CHECKPWD);
-        params.put("mobiles", "121");
+        params.put("mobiles", "17681874926");
         try {
             String responseStr = doPost(CHECKURL, params);
             System.out.println(responseStr);
@@ -104,20 +107,31 @@ public class Demo {
         }
     }
 
+    /**
+     * 获取创蓝那边的空号检测的余额条数
+     */
+    @Test
+    void test7() {
+        Map<String, String> params = new HashMap<>(3);
+        params.put("apiName", CHECKACCOUNT);
+        params.put("password", CHECKPWD);
+        try {
+            String responseStr = doPost("https://kh_bd.253.com/user/getUserBalance", params);
+            System.out.println(responseStr);
+        } catch (Exception e) {
+        }
+    }
 
     /**
      * 获取随机数
      */
     @Test
     void test5() {
-        Random random = new Random();
-        for (int i = 0; i < 100; i++) {
-            int a = random.nextInt(5);
-            System.out.println(a);
-        }
-
-        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
-        concurrentHashMap.get("111");
+        List<String> lista = new ArrayList<String>(1);
+        lista.add("111");
+        lista.add("222");
+        lista.add("333");
+        System.out.println(lista);
     }
 
 
@@ -166,20 +180,20 @@ public class Demo {
                 //错误号码
                 errorPhone.append(phone).append("\r\n");
                 errorCount++;
-            }else if (map.containsKey(phone)) {
+            } else if (map.containsKey(phone)) {
                 //重复号码
                 repeatPhone.append(phone).append("\r\n");
                 repeatCount++;
             } else {
-              map.put(phone, phone);
-              pendingMap.put(phone, phone);
+                map.put(phone, phone);
+                pendingMap.put(phone, phone);
                 if (pendingMap.size() >= 100000) {
-                    System.out.println("处理100000条数据需要的时间"+(System.currentTimeMillis()-start));
+                    System.out.println("处理100000条数据需要的时间" + (System.currentTimeMillis() - start));
                     //  StringUtils.join(pendingMap.keySet().toArray()   将map的key转换为逗号分隔的字符串
                     String result = getNumberStatus(pendingMap);
                     List<PhoneEntity> resultList = JSON.parseArray(result, PhoneEntity.class);
                     for (PhoneEntity phoneEntity : resultList) {
-                        if(ToolUtil.isNotEmpty(phoneEntity)){
+                        if (ToolUtil.isNotEmpty(phoneEntity)) {
                             //空号和停机都属于空号
                             if (StringUtils.equals(phoneEntity.getPhoneStatus(), PhoneStatusEnum.EMPTY_PHONE.getCode())
                                     || StringUtils.equals(phoneEntity.getPhoneStatus(), PhoneStatusEnum.DOWNTIME_PHONE.getCode())) {
@@ -204,7 +218,7 @@ public class Demo {
                 }
             }
         }
-        if(pendingMap.size()>0){
+        if (pendingMap.size() > 0) {
             String result = getNumberStatus(pendingMap);
             List<PhoneEntity> resultList = JSON.parseArray(result, PhoneEntity.class);
             for (PhoneEntity phoneEntity : resultList) {
@@ -258,7 +272,7 @@ public class Demo {
         object.put("riskPhonePath", riskPhonePath);
         object.put("errorPhonePath", errorPhonePath);
         object.put("repeatPhonePath", repeatPhonePath);
-        System.out.println("生成完成！耗时"+(System.currentTimeMillis()-start)+"详细信息是："+object.toJSONString());
+        System.out.println("生成完成！耗时" + (System.currentTimeMillis() - start) + "详细信息是：" + object.toJSONString());
 
     }
 

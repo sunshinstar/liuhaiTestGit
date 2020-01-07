@@ -1,4 +1,4 @@
-package testdemo.emptyNumber;
+package testdemo.emptyNumber.utils;
 
 /**
  * @author liuhai
@@ -6,15 +6,7 @@ package testdemo.emptyNumber;
  * 空号检测实体
  */
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
-
-
-import java.io.Serializable;
-
-@TableName(value = "${tableName}")
-public class Phone extends Model<Phone> {
+public class PhoneEntity {
 
     /**
      * 手机号作为主键  因为手机号是唯一的 也只有一条记录
@@ -59,7 +51,6 @@ public class Phone extends Model<Phone> {
     /**
      * 表名
      */
-    @TableField(exist = false)
     private String tableName;
 
 
@@ -134,8 +125,5 @@ public class Phone extends Model<Phone> {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-    @Override
-    protected Serializable pkVal() {
-        return id;
-    }
+
 }

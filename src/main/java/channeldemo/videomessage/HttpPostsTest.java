@@ -3,9 +3,11 @@ package channeldemo.videomessage;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.fluent.Request;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,17 +52,12 @@ public class HttpPostsTest {
      */
     @Test
     public void test5() throws IOException {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        String url = "http://119.23.65.189/sms-tool/yunMac/sms/urlEncodedReceipt";
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setConfig(requestConfig);
-        List formParams = new ArrayList<>();
-        formParams.add(new BasicNameValuePair("Phone", "中国"));
-        formParams.add(new BasicNameValuePair("Amount", "value2"));
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
-        httpPost.setEntity(entity);
-        CloseableHttpResponse response = httpClient.execute(httpPost);
-        System.out.println("response-------" + response);
+        List<NameValuePair> paramList = new ArrayList<>();
+        paramList.add(new BasicNameValuePair("userid", "2765"));
+        paramList.add(new BasicNameValuePair("account", "qlkj106cx"));
+        paramList.add(new BasicNameValuePair("password", "qlkj123456"));
+        paramList.add(new BasicNameValuePair("action", "overage"));
+        Request.Post("http://119.23.65.189/sms-tool/voice/sms/czyd").body(new UrlEncodedFormEntity(paramList, "UTF-8")).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("UTF-8"));
     }
 
     /**

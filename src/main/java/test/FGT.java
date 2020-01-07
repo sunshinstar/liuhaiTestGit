@@ -143,10 +143,15 @@ public class FGT {
 
     @Test
     public void test9() {
-        String result = "17681874968,REFUSE,1314520,20190611153201,1710756886;17681874926,REFUSE,1314520,20190611153201,1710756888;17681874969,REFUSE,1314520,20190611153201,1710756887";
-        String[] results = result.split(";");
-        for (int i = 0; i < results.length; i++) {
-            System.out.println(results[i]);
+        String balance = "-999999";
+        StringBuffer params = new StringBuffer();
+        params.append("http://qd.qxt666.cn/interface/qamount.jsp");
+        params.append("?user=").append("miaodiltwd").append("&");
+        params.append("pwd=").append("miaodiltwd");
+        try {
+            balance = Request.Get(params.toString()).socketTimeout(60000).connectTimeout(60000).execute().returnContent().asString(Charset.forName("GBK"));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
