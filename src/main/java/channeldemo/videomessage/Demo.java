@@ -44,7 +44,7 @@ public class Demo {
          //String url = "http://119.23.65.189:8088/gateway/detectionLink/detectionLinkStatus";
 
          //开发服务器的公网接口调用  小程序端
-        String url = "http://127.0.0.1:8091/monitoring/detectionLink/detectionLinkStatus";
+        String url = "http://192.168.1.241:8091/monitoring/detectionLink/detectionLinkStatus";
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);

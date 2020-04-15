@@ -2,7 +2,12 @@ package operaDemo;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author liuhai
@@ -11,16 +16,52 @@ import java.net.URLDecoder;
 public class TestDemo {
 
 
+    ExecutorService interfaceQuery = Executors.newFixedThreadPool(10);
     @Test
-    void test(){
-        String data ="channelScheduleData:2020-01-06:359:error";
-        System.out.println(data.substring(0,data.lastIndexOf(":")));
+    void test() throws InterruptedException {
+        for (int k = 0; k <100 ; k++) {
+            List<String> pendingList = new ArrayList<>();
+            List<String> count = new CopyOnWriteArrayList<>();
+
+            CountDownLatch latch = new CountDownLatch(2000);
+            for (int i = 0; i <100000 ; i++) {
+                pendingList.add("11111111111");
+                if (pendingList.size() >= 50) {
+
+                    interfaceQuery.submit(() -> {
+                        try {
+                            count.add("111");
+                        } catch (Exception e) {
+
+                        } finally {
+                            latch.countDown();
+                        }
+                    });
+                    pendingList = new ArrayList<>();
+                }
+            }
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(count.size());
+        }
+
+
+
     }
 
     @Test
-    void test2(){
-        String longUrl = "https%3A%2F%2Fwww.so.com%2Fs%3Fie%3Dutf-8%26src%3D360chrome_toolbar_search%26q%3D%25E6%2598%25AF%25E7%259A%2584";
-        System.out.println(URLDecoder.decode(longUrl));
-        System.out.println(URLDecoder.decode(URLDecoder.decode(longUrl)) );
+    void test2() throws InterruptedException {
+        Integer number = 0;
+        intadd(number);
+        System.out.println(number);
+    }
+
+    void intadd( Integer i ){
+        for (int j = 0; j <100 ; j++) {
+            i++;
+        }
     }
 }

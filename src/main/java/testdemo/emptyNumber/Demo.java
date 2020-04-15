@@ -99,7 +99,7 @@ public class Demo {
         Map<String, String> params = new HashMap<>(3);
         params.put("apiName", CHECKACCOUNT);
         params.put("password", CHECKPWD);
-        params.put("mobiles", "17681874926");
+        params.put("mobiles", "18662192738,18627569286,13287146101");
         try {
             String responseStr = doPost(CHECKURL, params);
             System.out.println(responseStr);

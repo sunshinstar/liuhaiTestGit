@@ -2,15 +2,17 @@ package operaDemo;
 
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import operaDemo.utils.HttpRequest;
 import operaDemo.utils.Response;
 import operaDemo.utils.SendEmailAndSmsResponse;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author liuhai
@@ -60,6 +62,7 @@ public class demo {
         map.put("smsRecipient", "17681874926");
         Long timeMillis = System.currentTimeMillis();
         map.put("timestamp", timeMillis + "");
+        map.put("expandCode","13145201");
         String secret = sortMap("7CF6CB5B77954352B87F316844D739C85D15FE02163748B48CB802C3EC9016D4", map);
         //进行发送并获取返回结果
         SendEmailAndSmsResponse sendEmailAndSmsResponse = getSendEmailAndSmsResponse("", map, timeMillis, secret);
@@ -111,5 +114,31 @@ public class demo {
         return JSON.parseObject(content, SendEmailAndSmsResponse.class);
     }
 
+
+    ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat("openAbilityDriver-%d").build();
+    ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 10, 5,
+            TimeUnit.MINUTES, new LinkedBlockingQueue<>(), factory);
+
+
+    @Test
+    void test2(){
+        List<String> list = new ArrayList<>();
+        list.add("1111222");
+        for (int i = 0; i < 100000; i++) {
+            testSend(list);
+        }
+
+    }
+
+
+    public void testSend(List list){
+        List list1 = list;
+        executor.submit(() -> {
+            if(list1.size()==0){
+                System.out.println("list的大小是"+list1.size());
+            }
+
+        });
+    }
 
 }
