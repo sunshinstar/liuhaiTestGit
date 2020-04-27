@@ -13,6 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author liuhai
@@ -122,11 +123,9 @@ public class demo {
 
     @Test
     void test2(){
-        List<String> list = new ArrayList<>();
-        list.add("1111222");
-        for (int i = 0; i < 100000; i++) {
-            testSend(list);
-        }
+        AtomicInteger conCnt = new AtomicInteger();
+        conCnt.decrementAndGet();
+        System.out.println(conCnt.get());
 
     }
 

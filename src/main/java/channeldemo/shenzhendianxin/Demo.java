@@ -469,4 +469,79 @@ public class Demo {
         System.out.println(url.substring(url.lastIndexOf("/")+1));
     }
 
+
+    /**
+     * 深圳电信集团自主增删白名单列表
+     */
+    @Test
+    void whiteInterface(){
+        testAddWhiteList();
+    }
+
+    /**
+     *
+     * 添加白名单用户
+     * @return
+     */
+    public static void testAddWhiteList() {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+            HttpPost httppost = new HttpPost("http://47.100.172.112:8886/sapi/whitelist");
+            httppost.setConfig(RequestConfig.custom().setConnectTimeout(200000).setSocketTimeout(200000).build());
+            //政企客户编号
+            String siID = "40755227480006";
+            //秘钥key
+            String key = "I89M65vc0Q";
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String Date = format.format(new Date());
+            String Authenticator = MD5(siID + Date + key);
+            //封装调用多媒体短信发送接口请求参数
+            String[] phones = {"13352949546"};
+            JSONObject params = new JSONObject();
+            params.put("SiID", "40755227480006");
+            params.put("Authenticator", Authenticator);
+            params.put("Date", Date);
+            params.put("Method", "whitelist");
+            params.put("Phones",phones);
+            params.put("Type", 1);//1=添加，0=删除
+            String temp = params.toString();
+
+            StringEntity reqEntity = new StringEntity(temp,"utf-8");
+
+            System.out.println("请求参数：" + params.toString());
+
+            httppost.setHeader("Content-Type","application/json");
+            httppost.setEntity(reqEntity);
+            System.err.println("executing request " + httppost.getRequestLine());
+
+            CloseableHttpResponse response = httpclient.execute(httppost);
+            System.out.println("response:"+response);
+
+            try {
+                System.out.println(response.getStatusLine());
+                HttpEntity resEntity = response.getEntity();
+                if (resEntity != null) {
+                    String responseEntityStr = EntityUtils.toString(response.getEntity());
+                    System.out.println("响应参数：" + responseEntityStr);
+                    System.out.println("Response content length: " + resEntity.getContentLength());
+                }
+
+                EntityUtils.consume(resEntity);
+            } finally {
+                response.close();
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 }
